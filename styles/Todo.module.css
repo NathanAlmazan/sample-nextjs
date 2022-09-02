@@ -1,0 +1,28 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.task {
+    border: 1px solid #FFFF;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.textfield {
+    height: 50px;
+    margin: 10px;
+}
