@@ -1,10 +1,13 @@
+import Head from "next/head";
 import { useState } from 'react';
 import styles from '../styles/Todo.module.css'
+import TodoCard from "../components/Cards/TodoCard"
 
 export default function Blog() {
   const [todos, setTodos] = useState([])
   const [task, setTask] = useState("")
   const [deadline, setDeadline] = useState(new Date())
+  const [clicked, setClicked] = useState([])
 
   const handleTaskChange = (event) => setTask(event.target.value)
   const handleDeadlineChange = (event) => setDeadline(new Date(event.target.value))
@@ -17,18 +20,37 @@ export default function Blog() {
     setDeadline(new Date())
   }
 
+  const handleTaskClicked = (key) => {
+    if (clicked.find(k => k.key === key))
+      setClicked(clicked.map(k => {
+        if (k.key === key) return { ...k, count: k.count > 3 ? 0 : k.count + 1 }
+
+        return k;
+      }))
+    else setClicked([ ...clicked, { count: 0, key: key } ])
+  }
+
   return (
     <div className={styles.container}>
-      
+
+      <Head>
+        <title>Todo List</title>
+      </Head>
+
       <div className={styles.form}>
         <h1>My Todo List</h1>
-        {todos.map(todo => (
-          <div key={todo.task} className={styles.task}>
-            <input type="checkbox" onClick={() => handleFinishTask(todo.task)} />
-            <h4>{todo.task}</h4>
-            <h6>{todo.deadline.toLocaleString()}</h6>
-          </div>
-        ))}
+        {todos.map(todo => {
+          const click = clicked.find(k => k.key === todo.task) // = obj || null
+
+          return (
+            <TodoCard
+              todo={todo} 
+              click={click} 
+              taskClicked={handleTaskClicked}
+              finishTask={handleFinishTask} 
+            />
+          )
+        })}
       </div>
 
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -37,14 +59,14 @@ export default function Blog() {
           placeholder="Task name" 
           type="text" 
           value={task} 
-          onChange={handleTaskChange} 
+          onChange={handleTaskChange}
         />
   
         <input 
           className={styles.textfield}
           placeholder="Task due date" 
           type="datetime-local" 
-          value={deadline.toISOString().split(".")[0]} 
+          value={deadline.toISOString().split(".")[0]}
           onChange={handleDeadlineChange} 
         />
         

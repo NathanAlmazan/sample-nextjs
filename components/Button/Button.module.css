@@ -1,0 +1,23 @@
+.primary {
+    height: 50px;
+    margin: 10px;
+    background-color: pink;
+}
+
+.secondary {
+    height: 50px;
+    margin: 10px;
+    background-color: blue;
+}
+
+.error {
+    height: 50px;
+    margin: 10px;
+    background-color: red;
+}
+
+.warning {
+    height: 50px;
+    margin: 10px;
+    background-color: yellow;
+}
